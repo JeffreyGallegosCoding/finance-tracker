@@ -1,0 +1,5 @@
+
+// This grabs from the div with id of results and renders the info in the result html partial
+// In ruby the j escapes the javascript
+  // Could also do escape_javascript(render '')
+document.querySelector('#results').innerHTML = '<%= j render 'users/result.html' %>'
