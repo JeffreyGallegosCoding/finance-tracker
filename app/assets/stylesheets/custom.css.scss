@@ -4,6 +4,10 @@
 //  font-size: 3rem;
 //}
 
+.nav-link {
+  color: black !important;
+}
+
 .search-area {
   padding-top: 30px;
 }
@@ -18,4 +22,5 @@
 
 .results-block {
   display: inline-block;
+  margin-bottom: 1rem;
 }
