@@ -28,26 +28,34 @@ class User < ApplicationRecord
     "Anonymous"
   end
 
-  def search
-    if params[:friend].present?
-      @friend = params[:friend]
-      if @friend
-        respond_to do |format|
-          format.js { render partial: 'users/friend_result' }
-        end
-      else
-        respond_to do |format|
-          flash.now[:alert] = "Couldn't find user"
-          format.js { render partial: 'users/friend_result' }
-        end
-      end
-    else
-      respond_to do |format|
-        flash.now[:alert] = "Please enter a friend name or email to search"
-        format.js { render partial: 'users/friend_result' }
-      end
-    end
+  def self.user_search(param)
+    # Will get rid of any blank spaces in search
+    param.strip!
+    # see if param matches any of the fields, concatenates them, and returns only the unique values
+    # so you will not receive duplicates
+    to_send_back = (first_name_matches(param) + last_name_matches(param) + email_matches(param)).uniq
+    # if it there is nothing to return it will return nil otherwise it will return the matched value
+    return nil unless to_send_back
+    to_send_back
+  end
 
+  # these matches methods are what will be called with the appropriate field name for user_search
+  def self.first_name_matches(param)
+    matches('first_name', param)
+  end
+
+  def self.last_name_matches(param)
+    matches('last_name', param)
+  end
+
+  def self.email_matches(param)
+    matches('email', param)
+  end
+
+
+  # Takes in field name and searches for a match based on a similar string
+  def self.matches(field_name, param)
+    where("#{field_name} like ?", "%#{param}%")
   end
 
 end
