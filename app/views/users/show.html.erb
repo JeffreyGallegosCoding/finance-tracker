@@ -1,0 +1,19 @@
+<h2>User Details</h2>
+
+<div class="card card-header results-block">
+  <ul>
+    <li>
+      <strong>Name: </strong> <%= @user.full_name %>
+      <strong>Email: </strong> <%= @user.email %>
+      <% if current_user.not_friends_with?(@user.id) %>
+        <%= link_to 'Follow friend?', friendships_path(friend: @user),
+                    class: "btn btn-sm btn-success", method: :post %>
+      <% else %>
+        <span class="badge badge-secondary">You are friends</span>
+      <% end %>
+    </li>
+  </ul>
+</div>
+
+
+<%= render 'stocks/list' %>
