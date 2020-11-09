@@ -52,6 +52,12 @@ class User < ApplicationRecord
     matches('email', param)
   end
 
+  # excludes the logged in user from displaying on the search dropdown
+  def except_current_user(users)
+    # this rejects any user whose id matches the current user
+    users.reject { |user| user.id == self.id }
+  end
+
 
   # Takes in field name and searches for a match based on a similar string
   def self.matches(field_name, param)
