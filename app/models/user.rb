@@ -58,6 +58,11 @@ class User < ApplicationRecord
     users.reject { |user| user.id == self.id }
   end
 
+  # If the current user is already friends with a user on their search list it will not show the option to follow friends
+  def not_friends_with?(id_of_friend)
+    !self.friends.where(id: id_of_friend).exists?
+  end
+
 
   # Takes in field name and searches for a match based on a similar string
   def self.matches(field_name, param)
